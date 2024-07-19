@@ -1,7 +1,7 @@
-using CinemaHelper.App.Core;
-using CinemaHelper.Core;
-using CinemaHelper.Core.Data;
-using CinemaHelper.Core.Service;
+using NoteBook.App.Core;
+using NoteBook.Core;
+using NoteBook.Core.Data;
+using NoteBook.Core.Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,22 +25,22 @@ namespace NoteBook.App
             }
         }
 
-        private ObservableCollection<Cinema> _cinemaList = new ObservableCollection<Cinema>();
-        public ObservableCollection<Cinema> CinemaList { get => _cinemaList; set { _cinemaList = value; OnPropertyChanged("CinemaList"); }  }
+        private ObservableCollection<Note> _NoteList = new ObservableCollection<Note>();
+        public ObservableCollection<Note> NoteList { get => _NoteList; set { _NoteList = value; OnPropertyChanged("NoteList"); }  }
 
-        private CinemaService cinemaService;
+        private NoteService NoteService;
 
-        private Cinema _selectedCinema;
-        public Cinema SelectedCinema { get => _selectedCinema; 
+        private Note _selectedNote;
+        public Note SelectedNote { get => _selectedNote; 
             set { 
-                _selectedCinema = value;
-                OnPropertyChanged("SelectedCinema");
+                _selectedNote = value;
+                OnPropertyChanged("SelectedNote");
             } }
 
-        public MainViewModel(CinemaService service)
+        public MainViewModel(NoteService service)
         {
-            cinemaService = service;
-            CinemaList = new ObservableCollection<Cinema>(cinemaService.GetAll());
+            NoteService = service;
+            NoteList = new ObservableCollection<Note>(NoteService.GetAll());
         }
 
 
@@ -52,10 +52,10 @@ namespace NoteBook.App
                 return addCommand ??
                   (addCommand = new RelayCommand(obj =>
                   {
-                      cinemaService.Create(
-                          new Cinema(0, Input)
+                      NoteService.Create(
+                          new Note(0, Input)
                           );
-                      CinemaList = new ObservableCollection<Cinema>(cinemaService.GetAll());
+                      NoteList = new ObservableCollection<Note>(NoteService.GetAll());
                   }));
             }
         }
@@ -68,10 +68,10 @@ namespace NoteBook.App
                 return deleteCommand ??
                   (deleteCommand = new RelayCommand(obj =>
                   {
-                      cinemaService.Delete(
-                          SelectedCinema.Id
+                      NoteService.Delete(
+                          SelectedNote.Id
                           );
-                      CinemaList = new ObservableCollection<Cinema>(cinemaService.GetAll());
+                      NoteList = new ObservableCollection<Note>(NoteService.GetAll());
                   }));
             }
         }
